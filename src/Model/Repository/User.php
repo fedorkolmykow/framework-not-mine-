@@ -101,6 +101,13 @@ class User
                 'password' => '$2y$10$vQvuFc6vQQyon0IawbmUN.3cPBXmuaZYsVww5csFRLvLCLPTiYwMa', // testss
                 'role' => $test
             ],
+            [
+                'id' => 5,
+                'name' => 'Kolmykow Fedor Alekseevich',
+                'login' => 'student',
+                'password' => '$2y$10$sq9zfEQMizwVvDKgepifB.HH8hB4ydfp830FE5UNPHXKfivhEko4a', // MyPassword
+                'role' => $user
+            ],
         ];
 
         if (!count($search)) {
