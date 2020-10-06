@@ -27,6 +27,11 @@ $routes->add(
 );
 
 $routes->add(
+    'product_detailed_list',
+    new Route('/product/list/details', ['_controller' => [ProductController::class, 'detailed_listAction']])
+);
+
+$routes->add(
     'order_info',
     new Route('/order/info', ['_controller' => [OrderController::class, 'infoAction']])
 );

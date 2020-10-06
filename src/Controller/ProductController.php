@@ -57,6 +57,20 @@ class ProductController
     }
 
     /**
+     * Подробный список всех продуктов
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function detailed_listAction(Request $request): Response
+    {
+        $productList = (new Product())->getAll($request->query->get('sort', ''));
+
+        return $this->render('/product/detailed_list.html.php', ['productList' => $productList]);
+    }
+
+    /**
      * Публикация сообщения в соц.сети
      *
      * @param Request $request
