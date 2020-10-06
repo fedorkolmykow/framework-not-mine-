@@ -1,8 +1,14 @@
 # UML Class diagramms
 
+Controllers
+
 ![Controllers diagramm](./controllers.png)
 
+MVC
+
 ![MVC diagramm](./mvc.png)
+
+Basket
 
 ![Basket diagramm](./basket.png)
 
