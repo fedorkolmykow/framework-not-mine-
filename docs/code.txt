@@ -196,3 +196,63 @@ VipDiscount ..> Entity_User
 Sms ..> Entity_User
 Email ..> Entity_User
 @enduml
+
+@startuml
+[o-> ProductController: detailed_listAction
+activate ProductController
+ProductController-> Service_Product: getAll
+activate Service_Product
+Service_Product-> Repository_Product: getProductRepository
+activate Repository_Product
+return product_List
+return product_List
+ProductController-> Render_View: render
+activate Render_View
+return Response
+return Response
+@enduml
+
+@startuml
+[o-> UserController: authenticationAction
+activate UserController
+UserController-> Security: new Security
+activate Security
+return user
+UserController-> Security: authentication
+activate Security
+Security-> User_Repository: getByLogin
+activate User_Repository
+return user
+return isAuthenticationSuccess
+UserController -> Render_View: render
+activate Render_View
+return Response
+return Response
+@enduml
+
+@startuml
+[o-> OrderController: infoAction
+activate OrderController
+OrderController-> Basket: new Basket
+activate Basket
+return Basket
+OrderController-> Basket: getProductsInfo
+activate Basket
+Basket-> Product_Repository: search
+activate Product_Repository
+return productList
+return productList
+OrderController-> Security: new Security
+activate Security
+return Security
+OrderController-> Security: isLogged
+activate Security
+Security-> User_Repository: getById
+activate User_Repository
+return user
+return isLogged
+OrderController -> Render_View: render
+activate Render_View
+return Response
+return Response
+@enduml
