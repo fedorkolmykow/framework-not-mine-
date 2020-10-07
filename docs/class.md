@@ -10,4 +10,4 @@ View
 
 Basket
 
-![Basket diagramm](./basket.swg)
+![Basket diagramm](./basket.svg)
