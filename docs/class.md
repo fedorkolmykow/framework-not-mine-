@@ -14,7 +14,7 @@ Basket
 
 # UML Sequence diagramms
 
-Detailed list of products
+Get detailed list of products
 
 ![Detailed list of products](./detailed_list.png)
 
@@ -22,6 +22,6 @@ Authentication
 
 ![Authentication](./auth.png)
 
-Info about Order
+Get info about Order
 
 ![Info about Order](./order_info.png)
