@@ -1,0 +1,198 @@
+@startuml
+class MainController {
++ indexAction(): Response
+}
+class ProductController {
++ infoAction(Request $request): Response
++ listAction(Request $request): Response
++ detailed_listAction(Request $request): Response
++ postAction(Request $request): Response
+}
+class OrderController {
++ infoAction(Request $request): Response
++ checkoutAction(Request $request): Response
+}
+class UserController {
++ authenticationAction(Request $request): Response
+logoutAction(Request $request): Response
+}
+class Entity_Product{
+- int id
+- string name
+- float price
+- float rating
++ __construct(int $id, string $name, float $price, float $rating)
++ getId(): int
++ getName(): string
++ getPrice(): float
++ getRating(): float
++ toArray(): array
+}
+class Entity_User{
+- int id
+- string name
+- string login
+- string password
+- Role role
++ __construct(int $id, string $name, string $login, string $password, Role $role)
++ getId(): int
++ getName(): string
++ getLogin(): string
++ getPasswordHash(): string
++ getRole(): Entity_Role
+}
+MainController --> Render_View
+ProductController --> Render_View
+OrderController --> Render_View
+UserController --> Render_View
+Render_View ..> Entity_Product
+Render_View ..> Entity_User
+@enduml
+
+
+@startuml
+class MainController {
++ indexAction(): Response
+}
+class ProductController {
++ infoAction(Request $request): Response
++ listAction(Request $request): Response
++ detailed_listAction(Request $request): Response
++ postAction(Request $request): Response
+}
+class OrderController {
++ infoAction(Request $request): Response
++ checkoutAction(Request $request): Response
+}
+class UserController {
++ authenticationAction(Request $request): Response
+logoutAction(Request $request): Response
+}
+class Entity_Product{
+- int id
+- string name
+- float price
+- float rating
++ __construct(int $id, string $name, float $price, float $rating)
++ getId(): int
++ getName(): string
++ getPrice(): float
++ getRating(): float
++ toArray(): array
+}
+class Entity_User{
+- int id
+- string name
+- string login
+- string password
+- Role role
++ __construct(int $id, string $name, string $login, string $password, Role $role)
++ getId(): int
++ getName(): string
++ getLogin(): string
++ getPasswordHash(): string
++ getRole(): Entity_Role
+}
+MainController --> Render_View
+ProductController --> Render_View
+OrderController --> Render_View
+UserController --> Render_View
+Render_View ..> Entity_Product
+Render_View ..> Entity_User
+@enduml
+
+
+@startuml
+class VipDiscount{
+- string $user
++ __construct(Entity_User $user)
++ getDiscount(): float
+}
+class PromoCode{
+- string $promoCode
++ __construct(string $promoCode)
++ getDiscount(): float
+}
+class NullObject{
++ getDiscount(): float
+}
+class IDiscount{
++ getDiscount(): float
+}
+class Email{
++ process(Entity_User $user, string $templateName, array $params = [])
+}
+class Sms{
++ process(Entity_User $user, string $templateName, array $params = [])
+}
+class ICommunication{
++ process(Entity_User $user, string $templateName, array $params = [])
+}
+class BankTransfer{
++ pay(float $totalPrice)
+}
+class Card{
++ pay(float $totalPrice)
+}
+class IBilling{
++ pay(float $totalPrice)
+}
+class Security{
+- SessionInterface session
++ __construct(SessionInterface $session)
++ getUser(): ?Entity_User
++ isLogged(): bool
++ authentication(string $login, string $password): bool
++ logout()
+- getUserRepository(): Repository_User
+}
+class ISecurity{
++ getUser(): ?Entity_User
++ isLogged(): bool
++ authentication(string $login, string $password): bool
++ logout()
+}
+class Basket{
+- SessionInterface session
++ __construct(SessionInterface $session)
++ addProduct(int $product)
++ isProductInBasket(int $productId): bool
++ getProductsInfo(): array
++ checkout()
++ checkoutProcess(IDiscount $discount, IBilling $billing, ISecurity $security, ICommunication $communication)
+- getProductRepository(): Repository_Product
+- getProductIds(): array
+}
+class Entity_User{
+- int id
+- string name
+- string login
+- string password
+- Role role
++ __construct(int $id, string $name, string $login, string $password, Role $role)
++ getId(): int
++ getName(): string
++ getLogin(): string
++ getPasswordHash(): string
++ getRole(): Entity_Role
+}
+Basket --> Card
+Basket --> Email
+Basket ..> NullObject
+Basket ..> Security
+Basket ..> ISecurity
+Basket ..> IDiscount
+Basket --> ICommunication
+Basket --> IBilling
+ISecurity <|.. Security
+IBilling <|.. Card
+IBilling <|.. BankTransfer
+ICommunication <|.. Email
+ICommunication <|.. Sms
+IDiscount <|.. NullObject
+IDiscount <|.. PromoCode
+IDiscount <|.. VipDiscount
+VipDiscount ..> Entity_User
+SMS ..> Entity_User
+Email ..> Entity_User
+@enduml
