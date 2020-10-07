@@ -193,6 +193,6 @@ IDiscount <|.. NullObject
 IDiscount <|.. PromoCode
 IDiscount <|.. VipDiscount
 VipDiscount ..> Entity_User
-SMS ..> Entity_User
+Sms ..> Entity_User
 Email ..> Entity_User
 @enduml
