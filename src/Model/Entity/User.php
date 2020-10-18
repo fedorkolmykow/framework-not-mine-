@@ -86,4 +86,12 @@ class User
     {
         return $this->role;
     }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role->getType() == "admin";
+    }
 }

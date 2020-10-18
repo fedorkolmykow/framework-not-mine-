@@ -41,6 +41,31 @@ class User
     }
 
     /**
+     * Получаем всех пользователей
+     *
+     * @return Entity\User[]
+     */
+    public function fetchAll(): array
+    {
+        $userList = [];
+        foreach ($this->getDataFromSource() as $item) {
+            $userList[] = new Entity\User(
+                $item['id'],
+                $item['name'],
+                $item['login'],
+                $item['password'],
+                new Entity\Role(
+                    $item['role']['id'],
+                    $item['role']['title'],
+                    $item['role']['role']
+                )
+            );
+        }
+
+        return $userList;
+    }
+
+    /**
      * Фабрика по созданию сущности пользователя
      *
      * @param array $user

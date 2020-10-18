@@ -32,7 +32,12 @@ trait Render
         };
 
         $renderLayout = function (string $view, array $parameters = []) use ($rootViewPath, $path): void {
-            $parameters['isAuth'] = (new Security(new Session()))->isLogged();
+            $security = new Security(new Session());
+            $isLogged = $security->isLogged();
+            $parameters['isAuth'] = $isLogged;
+            if ($isLogged){
+                $parameters['isAdmin'] = $security->getUser()->isAdmin();
+            }
             extract($parameters, EXTR_SKIP);
             try {
                 include_once str_replace('/', DIRECTORY_SEPARATOR, $rootViewPath . $view);
