@@ -50,7 +50,7 @@ class UserController
     public function listAction(Request $request): Response
     {
         $security = new Security($request->getSession());
-        if ($security->isLogged() && $security->getUser()->isAdmin()){
+        if ($security->isLogged() && $security->isAdmin()){
             $userList = (new User())->getAll();
             return $this->render('user/list.html.php', ['userList' => $userList]);
         }

@@ -34,6 +34,14 @@ class Security implements ISecurity
     /**
      * @inheritdoc
      */
+    public function isAdmin(): bool
+    {
+        return $this->getUser()->isAdmin();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isLogged(): bool
     {
         return $this->getUser() instanceof Model\Entity\User;
