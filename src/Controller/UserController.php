@@ -55,7 +55,22 @@ class UserController
             return $this->render('user/list.html.php', ['userList' => $userList]);
         }
         return $this->render('error404.html.php');
+    }
 
+    /**
+     * Список всех пользователей
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function profileAction(Request $request): Response
+    {
+        $security = new Security($request->getSession());
+        if ($security->isLogged()){
+            return $this->render('user/profile.html.php', ['user' => $security->getUser()]);
+        }
+        return $this->render('error404.html.php');
     }
 
     /**
