@@ -53,4 +53,9 @@ $routes->add(
     new Route('/user/list', ['_controller' => [\Controller\UserController::class, 'listAction']])
 );
 
+$routes->add(
+    'profile',
+    new Route('/user/profile', ['_controller' => [\Controller\UserController::class, 'profileAction']])
+);
+
 return $routes;
