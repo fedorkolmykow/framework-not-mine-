@@ -6,6 +6,7 @@ namespace Controller;
 
 use Framework\Render;
 use Service\User\Security;
+use Service\User\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,6 +38,24 @@ class UserController
         }
 
         return $this->render('user/authentication.html.php', ['error' => $error ?? '']);
+    }
+
+    /**
+     * Список всех пользователей
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function listAction(Request $request): Response
+    {
+        $security = new Security($request->getSession());
+        if ($security->isLogged() && $security->isAdmin()){
+            $userList = (new User())->getAll();
+            return $this->render('user/list.html.php', ['userList' => $userList]);
+        }
+        return $this->render('error404.html.php');
+
     }
 
     /**
