@@ -20,6 +20,11 @@ $body = function () use ($productList, $path) {
                     <a href="<?= $path('product_info', ['id' => $product->getId()]) ?>"><?= $product->getName() ?></a>
                     <br /><br />
                     <?= $product->getPrice() ?> руб.
+                    <?php
+                        if($product->getDiscount() > 0){
+                            ?> <br>Скидка: <?php echo($product->getDiscount()*100) ?>% <?php
+                        }
+                        ?>
                     <br>Рейтинг: <?= $product->getRating() ?>%
                 </td>
 <?php
