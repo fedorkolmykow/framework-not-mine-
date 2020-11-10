@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Controller;
 
 use Framework\Render;
+use Service\Order\Basket;
 use Service\User\Security;
 use Service\User\User;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,9 +67,16 @@ class UserController
      */
     public function profileAction(Request $request): Response
     {
-        $security = new Security($request->getSession());
+        $session = $request->getSession();
+        $security = new Security($session);
         if ($security->isLogged()){
-            return $this->render('user/profile.html.php', ['user' => $security->getUser()]);
+            $lastPurchaseCost = (new Basket($session))->getLastPurchaseCost();
+            return $this->render('user/profile.html.php',
+                                        [
+                                            'user' => $security->getUser(),
+                                            'lastPurchaseCost' => $lastPurchaseCost
+                                        ]
+                                );
         }
         return $this->render('error404.html.php');
     }
