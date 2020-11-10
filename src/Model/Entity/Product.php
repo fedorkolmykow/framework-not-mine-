@@ -27,17 +27,24 @@ class Product
     private $rating;
 
     /**
+     * @var float
+     */
+    private $discount;
+
+    /**
      * @param int $id
      * @param string $name
      * @param float $price
      * @param float $rating
+     * @param float $discount
      */
-    public function __construct(int $id, string $name, float $price, float $rating)
+    public function __construct(int $id, string $name, float $price, float $rating, float $discount)
     {
         $this->id = $id;
         $this->name = $name;
         $this->price = $price;
         $this->rating = $rating;
+        $this->discount = $discount;
     }
 
     /**
@@ -71,6 +78,15 @@ class Product
     {
         return $this->rating;
     }
+
+    /**
+     * @return float
+     */
+    public function getDiscount(): float
+    {
+        return $this->discount;
+    }
+
 
     /**
      * @return array
