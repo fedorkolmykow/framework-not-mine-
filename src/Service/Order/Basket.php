@@ -9,8 +9,10 @@ use Service\Billing\Card;
 use Service\Billing\IBilling;
 use Service\Communication\Email;
 use Service\Communication\ICommunication;
+use Service\Discount\BirthdayDiscount;
 use Service\Discount\IDiscount;
 use Service\Discount\NullObject;
+use Service\Discount\ProductsDiscount;
 use Service\User\ISecurity;
 use Service\User\Security;
 use Service\User\User;
@@ -100,13 +102,18 @@ class Basket
         // Здесь должна быть некоторая логика выбора способа платежа
         $billing = new Card();
 
-        // Здесь должна быть некоторая логика получения информации о скидки пользователя
-        $discount = new NullObject();
+        $security = new Security($this->session);
+
+        $birthdayDiscount = new BirthdayDiscount($security->getUser());
+        $productsDiscount = new ProductsDiscount($this->getProductsInfo());
+        if ($birthdayDiscount->getDiscount() > $productsDiscount->getDiscount()){
+            $discount = $birthdayDiscount;
+        } else{
+            $discount = $productsDiscount;
+        }
 
         // Здесь должна быть некоторая логика получения способа уведомления пользователя о покупке
         $communication = new Email();
-
-        $security = new Security($this->session);
 
         $this->checkoutProcess($discount, $billing, $security, $communication);
     }
@@ -131,8 +138,7 @@ class Basket
             $totalPrice += $product->getPrice();
         }
 
-        $discount = $discount->getDiscount();
-        $totalPrice = $totalPrice - $totalPrice / 100 * $discount;
+        $totalPrice = $discount->getPriceWithDiscount($totalPrice);
 
         $billing->pay($totalPrice);
         $user = $security->getUser();
