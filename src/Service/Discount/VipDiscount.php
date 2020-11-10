@@ -6,7 +6,7 @@ namespace Service\Discount;
 
 use Model;
 
-class VipDiscount implements IDiscount
+class VipDiscount extends BaseDiscount
 {
     /**
      * @var string
@@ -28,7 +28,7 @@ class VipDiscount implements IDiscount
     {
         // Получаем индивидуальную скидку VIP пользователя
         // $discount = $this->find($this->user)->discount();
-        $discount = 20;
+        $discount = 0.2;
 
         return $discount;
     }

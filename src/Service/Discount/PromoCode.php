@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Service\Discount;
 
-class PromoCode implements IDiscount
+class PromoCode extends BaseDiscount
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ class PromoCode implements IDiscount
     {
         // Получаем по промокоду размер скидки на заказ в процентах
         // $discount = $this->find($this->promoCode)->discount();
-        $discount = 5.50;
+        $discount = 0.055;
 
         // Запрос в систему хранения промокодов для пометки кода как использованный
         // $this->find($this->promoCode)->deactivate();

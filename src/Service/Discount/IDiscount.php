@@ -7,9 +7,17 @@ namespace Service\Discount;
 interface IDiscount
 {
     /**
-     * Получаем скидку в процентах
+     * Получаем скидку дробью
      *
      * @return float
      */
     public function getDiscount(): float;
+
+    /**
+     * Получаем цену с скидкой
+     *
+     * @param float $totalPrice
+     * @return float
+     */
+    public function getPriceWithDiscount(float $totalPrice): float;
 }

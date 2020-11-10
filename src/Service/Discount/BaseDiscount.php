@@ -4,8 +4,11 @@ declare(strict_types = 1);
 
 namespace Service\Discount;
 
-class NullObject implements IDiscount
+class BaseDiscount implements IDiscount
 {
+    const BIG_DISCOUNT_PRICE = 40000.0;
+    const BIG_DISCOUNT = 0.1;
+
     /**
      * @inheritdoc
      */
@@ -22,6 +25,13 @@ class NullObject implements IDiscount
      * @return float
      */
     public function getPriceWithDiscount(float $totalPrice): float{
-        return 0;
+        $discount = 0;
+        if($totalPrice > self::BIG_DISCOUNT_PRICE){
+            $discount = self::BIG_DISCOUNT;
+        }
+        if($this->getDiscount() > $discount){
+            $discount = $this->getDiscount();
+        }
+        return $totalPrice - $discount * $totalPrice;
     }
 }
