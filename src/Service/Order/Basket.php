@@ -13,6 +13,7 @@ use Service\Discount\IDiscount;
 use Service\Discount\NullObject;
 use Service\User\ISecurity;
 use Service\User\Security;
+use Service\User\User;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Basket
@@ -21,6 +22,11 @@ class Basket
      * Сессионный ключ списка всех продуктов корзины
      */
     private const BASKET_DATA_KEY = 'basket';
+
+    /**
+     * Сессионный ключ стоимости последней покупки
+     */
+    private const LAST_PURCHASE_COST = 'costly';
 
     /**
      * @var SessionInterface
@@ -75,6 +81,16 @@ class Basket
     }
 
     /**
+     * Получаем стоимость последней покупки
+     *
+     * @return float
+     */
+    public function getLastPurchaseCost(): float
+    {
+        return $this->session->get(static::LAST_PURCHASE_COST, 0.0);
+    }
+
+    /**
      * Оформление заказа
      *
      * @return void
@@ -119,8 +135,9 @@ class Basket
         $totalPrice = $totalPrice - $totalPrice / 100 * $discount;
 
         $billing->pay($totalPrice);
-
         $user = $security->getUser();
+        $this->session->set(static::LAST_PURCHASE_COST, $totalPrice);
+
         $communication->process($user, 'checkout_template');
     }
 
