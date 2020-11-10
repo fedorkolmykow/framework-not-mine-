@@ -31,7 +31,7 @@ $body = function () use ($productList, $isLogged, $path) {
         if ($isLogged) {
             ?>
             <tr>
-                <td colspan="3" align="center"><input type="submit" value="Оформить заказ" /></td>
+                <td colspan="3" align="center"><input formaction="<?= $path('order_checkout') ?>" type="submit" value="Оформить заказ" /></td>
             </tr>
 <?php
         } else {
