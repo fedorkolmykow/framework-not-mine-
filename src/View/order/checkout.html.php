@@ -1,9 +1,7 @@
 <?php
 
-/** @var \Model\Entity\Product[] $productList */
-/** @var bool $isLogged */
 /** @var \Closure $path */
-$body = function () use ($productList, $isLogged, $path) {
+$body = function () use ($path) {
     ?>
     <form method="post">
         <table cellpadding="10">
