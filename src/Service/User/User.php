@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 namespace Service\User;
+
 use Model;
 
 class User

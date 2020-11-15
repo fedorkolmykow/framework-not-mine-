@@ -6,7 +6,7 @@ namespace Service\Discount;
 
 use Model;
 
-class ProductsDiscount extends BaseDiscount
+class ProductsDiscount implements IDiscount
 {
     /**
      * @var Model\Entity\Product[]
@@ -32,7 +32,9 @@ class ProductsDiscount extends BaseDiscount
             $discountPrice += $product->getDiscount() * $product->getPrice();
             $totalPrice += $product->getPrice();
         }
-        if ($totalPrice == 0) return 0;
+        if ($totalPrice == 0) {
+            return 0;
+        }
         return $discountPrice/$totalPrice;
     }
 }

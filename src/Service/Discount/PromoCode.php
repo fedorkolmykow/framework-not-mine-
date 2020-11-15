@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Service\Discount;
 
-class PromoCode extends BaseDiscount
+class PromoCode implements IDiscount
 {
     /**
      * @var string

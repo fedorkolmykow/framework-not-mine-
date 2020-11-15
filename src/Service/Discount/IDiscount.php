@@ -12,12 +12,4 @@ interface IDiscount
      * @return float
      */
     public function getDiscount(): float;
-
-    /**
-     * Получаем цену с скидкой
-     *
-     * @param float $totalPrice
-     * @return float
-     */
-    public function getPriceWithDiscount(float $totalPrice): float;
 }

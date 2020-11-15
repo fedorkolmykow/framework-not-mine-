@@ -9,6 +9,7 @@ use Service\Billing\Card;
 use Service\Billing\IBilling;
 use Service\Communication\Email;
 use Service\Communication\ICommunication;
+use Service\Discount\BigPriceDiscount;
 use Service\Discount\BirthdayDiscount;
 use Service\Discount\IDiscount;
 use Service\Discount\NullObject;
@@ -93,6 +94,53 @@ class Basket
     }
 
     /**
+     * Получаем стоимость текущей покупки без скикди
+     *
+     * @return float
+     */
+    public function getTotalPrice(): float
+    {
+        $totalPrice = 0;
+        foreach ($this->getProductsInfo() as $product) {
+            $totalPrice += $product->getPrice();
+        }
+        return $totalPrice;
+    }
+
+    /**
+     * Получаем стоимость последней покупки
+     *
+     * @return IDiscount
+     */
+    public function getBestDiscount(): IDiscount
+    {
+        $discount = new NullObject();
+        $maxDiscount = $discount->getDiscount();
+
+        $security = new Security($this->session);
+        if (!$security->isLogged()) {
+            return $discount;
+        }
+
+
+        $bigPriceDiscount = new BigPriceDiscount($this->getTotalPrice());
+        $birthdayDiscount = new BirthdayDiscount($security->getUser());
+        $productsDiscount = new ProductsDiscount($this->getProductsInfo());
+        $discounts = [$bigPriceDiscount, $birthdayDiscount, $productsDiscount];
+
+
+        foreach ($discounts as $d) {
+            $discountValue = $d->getDiscount();
+
+            if ($discountValue > $maxDiscount) {
+                $maxDiscount = $discountValue;
+                $discount = $d;
+            }
+        }
+        return $discount;
+    }
+
+    /**
      * Оформление заказа
      *
      * @return void
@@ -104,13 +152,7 @@ class Basket
 
         $security = new Security($this->session);
 
-        $birthdayDiscount = new BirthdayDiscount($security->getUser());
-        $productsDiscount = new ProductsDiscount($this->getProductsInfo());
-        if ($birthdayDiscount->getDiscount() > $productsDiscount->getDiscount()){
-            $discount = $birthdayDiscount;
-        } else{
-            $discount = $productsDiscount;
-        }
+        $discount = $this->getBestDiscount();
 
         // Здесь должна быть некоторая логика получения способа уведомления пользователя о покупке
         $communication = new Email();
@@ -138,7 +180,7 @@ class Basket
             $totalPrice += $product->getPrice();
         }
 
-        $totalPrice = $discount->getPriceWithDiscount($totalPrice);
+        $totalPrice = $totalPrice - $totalPrice * $discount->getDiscount();
 
         $billing->pay($totalPrice);
         $user = $security->getUser();

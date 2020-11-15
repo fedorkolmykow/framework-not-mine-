@@ -6,7 +6,7 @@ namespace Service\Discount;
 
 use Model;
 
-class VipDiscount extends BaseDiscount
+class VipDiscount implements IDiscount
 {
     /**
      * @var string

@@ -14,14 +14,4 @@ class NullObject implements IDiscount
         // Скидка отсутствует
         return 0;
     }
-
-    /**
-     * Получаем скидку в процентах
-     *
-     * @param float $totalPrice
-     * @return float
-     */
-    public function getPriceWithDiscount(float $totalPrice): float{
-        return 0;
-    }
 }

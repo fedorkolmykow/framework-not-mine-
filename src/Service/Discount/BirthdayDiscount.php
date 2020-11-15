@@ -4,13 +4,16 @@ declare(strict_types = 1);
 
 namespace Service\Discount;
 
+use DateTime;
+use Exception;
 use Model;
 
-class BirthdayDiscount extends BaseDiscount
+class BirthdayDiscount implements IDiscount
 {
     const BIRTHDAY_DISCOUNT = 0.05;
-    const BEFORE_BIRTHDAY = ' -5 day';
-    const AFTER_BIRTHDAY = ' +5 day';
+    const BEFORE_TODAY = ' -5 days';
+    const AFTER_TODAY = ' +5 days';
+
     /**
      * @var Model\Entity\User
      */
@@ -30,12 +33,18 @@ class BirthdayDiscount extends BaseDiscount
     public function getDiscount(): float
     {
         $discount = 0;
-        $right_now = date("d.m");
-        $birthday = date("d.m", strtotime($this->user->getBirthData()));
-        $before = date("d.m", strtotime( $birthday . self::BEFORE_BIRTHDAY));
-        $after = date("d.m", strtotime( $birthday . self::AFTER_BIRTHDAY));
-        if ((strtotime($before) < strtotime($right_now)) ||
-            (strtotime($right_now) > strtotime($after))){
+        $birthData = $this->user->getBirthData();
+        try {
+            $birthday = new DateTime($birthData, null);
+        }
+        catch (Exception $e){
+            return $discount;
+        }
+        $before = new DateTime(self::BEFORE_TODAY);
+        $after = new DateTime(self::AFTER_TODAY);
+
+        if (($before < $birthday) &&
+            ($birthday < $after)) {
             $discount = self::BIRTHDAY_DISCOUNT;
         }
         return $discount;
