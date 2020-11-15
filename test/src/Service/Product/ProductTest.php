@@ -109,4 +109,11 @@ class ProductTest extends TestCase
             ]
         ];
     }
+
+    public function testGet(){
+        $rep = new ProductRepository();
+        $products = $rep->search(array(1,2));
+        $this->assertEquals('PHP', $products[1]->getName());
+
+    }
 }
