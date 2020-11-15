@@ -8,10 +8,10 @@ $body = function () use ($user, $lastPurchaseCost, $path) {
     <div align="left">
     <ul>
         <li>
-            День рождения: <?php echo $user->getBirthData();?>
+            День рождения: <?php echo $user->getBirthData(); ?>
         </li>
         <li>
-            Сумма последнего заказа: <?php echo $lastPurchaseCost;?>
+            Сумма последнего заказа: <?php echo $lastPurchaseCost; ?>
         </li>
     </ul>
     </div>

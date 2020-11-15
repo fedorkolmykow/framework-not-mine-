@@ -35,7 +35,7 @@ trait Render
             $security = new Security(new Session());
             $isLogged = $security->isLogged();
             $parameters['isAuth'] = $isLogged;
-            if ($isLogged){
+            if ($isLogged) {
                 $parameters['isAdmin'] = $security->getUser()->isAdmin();
             }
             extract($parameters, EXTR_SKIP);

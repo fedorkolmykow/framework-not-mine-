@@ -23,14 +23,14 @@
                                     <tr><td><a href="<?= $path('user_authentication') ?>">Авторизация</a></td></tr>
                                 <?php
 } else {
-                                ?>
+        ?>
                                 <tr><td><a href="<?= $path('profile') ?>">Личный кабинет</a></td></tr>
                                 <?php
         if ($isAdmin) {
             ?>
                                 <tr><td><a href="<?= $path('user_list') ?>">Пользователи</a></td></tr>
             <?php
-        }?>
+        } ?>
                                     <tr><td><a href="<?= $path('logout') ?>">Выход</a></td></tr>
                                 <?php
     } ?>

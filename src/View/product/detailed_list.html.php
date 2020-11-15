@@ -21,10 +21,9 @@ $body = function () use ($productList, $path) {
                     <br /><br />
                     <?= $product->getPrice() ?> руб.
                     <?php
-                        if($product->getDiscount() > 0){
+                        if ($product->getDiscount() > 0) {
                             ?> <br>Скидка: <?php echo($product->getDiscount()*100) ?>% <?php
-                        }
-                        ?>
+                        } ?>
                     <br>Рейтинг: <?= $product->getRating() ?>%
                 </td>
 <?php

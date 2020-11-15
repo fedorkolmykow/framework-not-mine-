@@ -103,7 +103,7 @@ class User
             [
                 'id' => 1,
                 'name' => 'Super Admin',
-                'birthDate' => date("m.d.y", mktime(0, 0, 0, 7, 1, 2000)),
+                'birthDate' => date("d.m.Y", mktime(0, 0, 0, 7, 1, 2000)),
                 'login' => 'root',
                 'password' => '$2y$10$GnZbayyccTIDIT5nceez7u7z1u6K.znlEf9Jb19CLGK0NGbaorw8W', // 1234
                 'role' => $admin
@@ -111,7 +111,7 @@ class User
             [
                 'id' => 2,
                 'name' => 'Doe John',
-                'birthDate' => date("m.d.y", mktime(0, 0, 0, 1, 23, 1985)),
+                'birthDate' => date("d.m.Y", mktime(0, 0, 0, 1, 23, 1985)),
                 'login' => 'doejohn',
                 'password' => '$2y$10$j4DX.lEvkVLVt6PoAXr6VuomG3YfnssrW0GA8808Dy5ydwND/n8DW', // qwerty
                 'role' => $user
@@ -119,7 +119,7 @@ class User
             [
                 'id' => 3,
                 'name' => 'Ivanov Ivan Ivanovich',
-                'birthDate' => date("m.d.y", mktime(0, 0, 0, 1, 1, 2005)),
+                'birthDate' => date("d.m.Y", mktime(0, 0, 0, 1, 1, 2005)),
                 'login' => 'i**3',
                 'password' => '$2y$10$TcQdU.qWG0s7XGeIqnhquOH/v3r2KKbes8bLIL6NFWpqfFn.cwWha', // PaSsWoRd
                 'role' => $user
@@ -127,7 +127,7 @@ class User
             [
                 'id' => 4,
                 'name' => 'Test Testov Testovich',
-                'birthDate' => date("m.d.y", mktime(0, 0, 0, 3, 30, 1952)),
+                'birthDate' => date("d.m.Y", mktime(0, 0, 0, 3, 30, 1952)),
                 'login' => 'testok',
                 'password' => '$2y$10$vQvuFc6vQQyon0IawbmUN.3cPBXmuaZYsVww5csFRLvLCLPTiYwMa', // testss
                 'role' => $test
@@ -135,7 +135,7 @@ class User
             [
                 'id' => 5,
                 'name' => 'Kolmykow Fedor Alekseevich',
-                'birthDate' => date("m.d.y", mktime(0, 0, 0, 1, 9, 1997)),
+                'birthDate' => date("d.m.Y", mktime(0, 0, 0, 1, 9, 1997)),
                 'login' => 'student',
                 'password' => '$2y$10$sq9zfEQMizwVvDKgepifB.HH8hB4ydfp830FE5UNPHXKfivhEko4a', // MyPassword
                 'role' => $user

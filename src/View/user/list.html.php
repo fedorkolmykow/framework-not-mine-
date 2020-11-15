@@ -10,9 +10,10 @@ $body = function () use ($userList, $path) {
     foreach ($userList as $key => $user) {
         ?>
             <li>
-                <?php echo $user->getName();?>
+                <?php echo $user->getName(); ?>
             </li>
- <?php   }?>
+ <?php
+    } ?>
     </ol>
     </div>
 <?php

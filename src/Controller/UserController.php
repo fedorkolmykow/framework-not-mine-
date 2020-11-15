@@ -51,7 +51,7 @@ class UserController
     public function listAction(Request $request): Response
     {
         $security = new Security($request->getSession());
-        if ($security->isLogged() && $security->isAdmin()){
+        if ($security->isLogged() && $security->isAdmin()) {
             $userList = (new User())->getAll();
             return $this->render('user/list.html.php', ['userList' => $userList]);
         }
@@ -69,14 +69,15 @@ class UserController
     {
         $session = $request->getSession();
         $security = new Security($session);
-        if ($security->isLogged()){
+        if ($security->isLogged()) {
             $lastPurchaseCost = (new Basket($session))->getLastPurchaseCost();
-            return $this->render('user/profile.html.php',
-                                        [
+            return $this->render(
+                'user/profile.html.php',
+                [
                                             'user' => $security->getUser(),
                                             'lastPurchaseCost' => $lastPurchaseCost
                                         ]
-                                );
+            );
         }
         return $this->render('error404.html.php');
     }
