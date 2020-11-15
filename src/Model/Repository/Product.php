@@ -69,9 +69,7 @@ class Product
         }
 
         $productFilter = function (Entity\Product $product) use ($search): bool {
-            var_dump(current($search));
-
-            return $product->getId() == current($search);
+            return in_array($product->getId(), current($search), true);
         };
 
         return array_filter($dataSource, $productFilter);
