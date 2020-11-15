@@ -19,16 +19,9 @@ class Product
         if (!count($ids)) {
             return [];
         }
-
         $productList = [];
         foreach ($this->getDataFromSource(['id' => $ids]) as $item) {
-            $productList[] = new Entity\Product(
-                $item['id'],
-                $item['name'],
-                $item['price'],
-                $item['rating'],
-                $item['discount']
-            );
+            $productList[] = clone $item;
         }
 
         return $productList;
@@ -43,13 +36,7 @@ class Product
     {
         $productList = [];
         foreach ($this->getDataFromSource() as $item) {
-            $productList[] = new Entity\Product(
-                $item['id'],
-                $item['name'],
-                $item['price'],
-                $item['rating'],
-                $item['discount']
-            );
+            $productList[] = clone $item;
         }
 
         return $productList;
@@ -64,85 +51,27 @@ class Product
      */
     private function getDataFromSource(array $search = [])
     {
-        $dataSource = [
-            [
-                'id' => 1,
-                'name' => 'PHP',
-                'price' => 15300,
-                'rating' => 2.09,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 2,
-                'name' => 'Python',
-                'price' => 20400,
-                'rating' => 11.28,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 3,
-                'name' => 'C#',
-                'price' => 30100,
-                'rating' => 4.16,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 4,
-                'name' => 'Java',
-                'price' => 30600,
-                'rating' => 12.56,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 5,
-                'name' => 'Ruby',
-                'price' => 18600,
-                'rating' => 1.16,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 8,
-                'name' => 'Delphi',
-                'price' => 8400,
-                'rating' => 0.71,
-                'discount' => 0.08,
-            ],
-            [
-                'id' => 9,
-                'name' => 'C++',
-                'price' => 19300,
-                'rating' => 6.94,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 10,
-                'name' => 'C',
-                'price' => 12800,
-                'rating' => 16.95,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 11,
-                'name' => 'Lua',
-                'price' => 5000,
-                'rating' => 0.35,
-                'discount' => 0.0,
-            ],
-            [
-                'id' => 12,
-                'name' => 'Rust',
-                'price' => 100500,
-                'rating' => 0.68,
-                'discount' => 0.0,
-            ],
-        ];
+        $dataSource = array(
+            new Entity\Product(1, 'PHP', 15300, 2.09),
+            new Entity\Product(2, 'Python', 20400, 11.28),
+            new Entity\Product(3, 'C#', 30100, 4.16),
+            new Entity\Product(4, 'Java', 30600, 12.56),
+            new Entity\Product(5, 'Ruby', 18600, 1.16),
+            new Entity\Product(8, 'Delphi', 8400, 0.71, 0.08),
+            new Entity\Product(9, 'C++', 19300, 6.94),
+            new Entity\Product(10, 'C', 12800, 16.95),
+            new Entity\Product(11, 'Lua', 5000, 0.35),
+            new Entity\Product(12, 'Rust', 100500, 0.68),
+        );
 
         if (!count($search)) {
             return $dataSource;
         }
 
-        $productFilter = function (array $dataSource) use ($search): bool {
-            return in_array($dataSource[key($search)], current($search), true);
+        $productFilter = function (Entity\Product $product) use ($search): bool {
+            var_dump(current($search));
+
+            return $product->getId() == current($search);
         };
 
         return array_filter($dataSource, $productFilter);
