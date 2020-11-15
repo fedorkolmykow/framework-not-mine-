@@ -29,7 +29,7 @@ class Basket
     /**
      * Сессионный ключ стоимости последней покупки
      */
-    private const LAST_PURCHASE_COST = 'costly';
+    public const LAST_PURCHASE_COST = 'costly';
 
     /**
      * @var SessionInterface
@@ -148,45 +148,15 @@ class Basket
     public function checkout(): void
     {
         // Здесь должна быть некоторая логика выбора способа платежа
-        $billing = new Card();
+        $basketBuilder = new BasketBuilder();
+        $basketBuilder->setBilling(new Card());
+        $basketBuilder->setSession($this->session);
+        $basketBuilder->setCommunication(new Email());
+        $basketBuilder->setDiscount($this->getBestDiscount());
+        $basketBuilder->setProducts($this->getProductsInfo());
 
-        $security = new Security($this->session);
-
-        $discount = $this->getBestDiscount();
-
-        // Здесь должна быть некоторая логика получения способа уведомления пользователя о покупке
-        $communication = new Email();
-
-        $this->checkoutProcess($discount, $billing, $security, $communication);
-    }
-
-    /**
-     * Проведение всех этапов заказа
-     *
-     * @param IDiscount $discount,
-     * @param IBilling $billing,
-     * @param ISecurity $security,
-     * @param ICommunication $communication
-     * @return void
-     */
-    public function checkoutProcess(
-        IDiscount $discount,
-        IBilling $billing,
-        ISecurity $security,
-        ICommunication $communication
-    ): void {
-        $totalPrice = 0;
-        foreach ($this->getProductsInfo() as $product) {
-            $totalPrice += $product->getPrice();
-        }
-
-        $totalPrice = $totalPrice - $totalPrice * $discount->getDiscount();
-
-        $billing->pay($totalPrice);
-        $user = $security->getUser();
-        $this->session->set(static::LAST_PURCHASE_COST, $totalPrice);
-
-        $communication->process($user, 'checkout_template');
+        $check = new Checkout();
+        $check->Process($basketBuilder);
     }
 
     /**
