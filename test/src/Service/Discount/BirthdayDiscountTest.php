@@ -10,20 +10,36 @@ use PHPUnit\Framework\TestCase;
 use Service\Discount\BirthdayDiscount;
 use Service\Discount\BirthdayDiscount as BirthdayDisService;
 
-
 class BirthdayDiscountTest extends TestCase
 {
-    public function testGetBirthdayDiscount(){
-        $user = new User(
-            9,
-            'Mike',
-            date('d.m.Y', strtotime("+1 day")),
-            'whatever',
-            'anyway',
-            new Role(100, 'President', 'whoever')
+    public function testGetBirthdayDiscount()
+    {
+        $data = array(
+            array("expected" => BirthdayDiscount::BIRTHDAY_DISCOUNT, "user" => new User(
+                9,
+                'Mike1',
+                date('d.m.Y', strtotime("+1 day")),
+                'whatever',
+                'anyway',
+                new Role(100, 'President', 'whoever')
+            )
+            ),
+            array("expected" => 0, "user" => new User(
+                9,
+                'Mike2',
+                date('d.m.Y', strtotime("+30 days")),
+                'whatever',
+                'anyway',
+                new Role(100, 'President', 'whoever')
+            )
+            ),
         );
-        $discount = new BirthdayDiscount($user);
-        $this->assertEquals(BirthdayDiscount::BIRTHDAY_DISCOUNT, $discount->getDiscount());
+        foreach ($data as $d) {
+            $discount = new BirthdayDiscount($d['user']);
+            $this->assertEquals(
+                $d['expected'],
+                $discount->getDiscount()
+            );
+        }
     }
-
 }
