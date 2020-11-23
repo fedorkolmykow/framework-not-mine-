@@ -7,13 +7,13 @@ namespace Service\SocialNetwork;
 class VK implements ISocialNetwork
 {
     /**
-     * Отправка сообщения в соц.сеть
+     * Отправка сообщения в ВКонтакте
      *
      * @param string $message
      *
      * @return void
      */
-    public function send(string $message): void{
+    public function sendNewMessage(string $message): void{
 
     }
 
