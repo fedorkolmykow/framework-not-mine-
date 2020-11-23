@@ -9,6 +9,7 @@ use Service\Billing\Card;
 use Service\Billing\IBilling;
 use Service\Communication\Email;
 use Service\Communication\ICommunication;
+use Service\Discount\BestDiscount;
 use Service\Discount\BigPriceDiscount;
 use Service\Discount\BirthdayDiscount;
 use Service\Discount\IDiscount;
@@ -114,30 +115,7 @@ class Basket
      */
     public function getBestDiscount(): IDiscount
     {
-        $discount = new NullObject();
-        $maxDiscount = $discount->getDiscount();
-
-        $security = new Security($this->session);
-        if (!$security->isLogged()) {
-            return $discount;
-        }
-
-
-        $bigPriceDiscount = new BigPriceDiscount($this->getTotalPrice());
-        $birthdayDiscount = new BirthdayDiscount($security->getUser());
-        $productsDiscount = new ProductsDiscount($this->getProductsInfo());
-        $discounts = [$bigPriceDiscount, $birthdayDiscount, $productsDiscount];
-
-
-        foreach ($discounts as $d) {
-            $discountValue = $d->getDiscount();
-
-            if ($discountValue > $maxDiscount) {
-                $maxDiscount = $discountValue;
-                $discount = $d;
-            }
-        }
-        return $discount;
+        return (new BestDiscount())->getBestDiscount($this->session, $this->getProductsInfo());
     }
 
     /**
@@ -147,16 +125,7 @@ class Basket
      */
     public function checkout(): void
     {
-        // Здесь должна быть некоторая логика выбора способа платежа
-        $basketBuilder = new BasketBuilder();
-        $basketBuilder->setBilling(new Card());
-        $basketBuilder->setSession($this->session);
-        $basketBuilder->setCommunication(new Email());
-        $basketBuilder->setDiscount($this->getBestDiscount());
-        $basketBuilder->setProducts($this->getProductsInfo());
-
-        $check = new Checkout();
-        $check->Process($basketBuilder);
+        (new Checkout())->checkout($this->session, $this->getProductsInfo());
     }
 
     /**
