@@ -9,7 +9,7 @@ use Service\User\Security;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Model\Entity\Product;
 
-class BestDiscount
+class Discount
 {
     /**
      * Получаем стоимость текущей покупки без скикди

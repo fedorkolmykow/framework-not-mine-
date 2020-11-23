@@ -7,7 +7,7 @@ namespace Service\Order;
 use Model\Entity\Product;
 use Service\Billing\Card;
 use Service\Communication\Email;
-use Service\Discount\BestDiscount;
+use Service\Discount\Discount;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Checkout
@@ -28,7 +28,7 @@ class Checkout
         $basketBuilder->setSession($session);
         $basketBuilder->setCommunication(new Email());
         $basketBuilder->setDiscount(
-            (new BestDiscount())->getBestDiscount($session, $products)
+            (new Discount())->getBestDiscount($session, $products)
         );
         $basketBuilder->setProducts($products);
 

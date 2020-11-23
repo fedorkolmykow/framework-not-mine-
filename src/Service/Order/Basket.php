@@ -9,7 +9,7 @@ use Service\Billing\Card;
 use Service\Billing\IBilling;
 use Service\Communication\Email;
 use Service\Communication\ICommunication;
-use Service\Discount\BestDiscount;
+use Service\Discount\Discount;
 use Service\Discount\BigPriceDiscount;
 use Service\Discount\BirthdayDiscount;
 use Service\Discount\IDiscount;
@@ -115,7 +115,7 @@ class Basket
      */
     public function getBestDiscount(): IDiscount
     {
-        return (new BestDiscount())->getBestDiscount($this->session, $this->getProductsInfo());
+        return (new Discount())->getBestDiscount($this->session, $this->getProductsInfo());
     }
 
     /**
