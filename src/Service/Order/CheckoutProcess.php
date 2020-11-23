@@ -6,7 +6,7 @@ namespace Service\Order;
 
 use Service\User\Security;
 
-class Checkout
+class CheckoutProcess
 {
 
     /**
