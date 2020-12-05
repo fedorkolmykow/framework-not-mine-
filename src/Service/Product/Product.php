@@ -31,9 +31,14 @@ class Product
     {
         $productList = $this->getProductRepository()->fetchAll();
 
+        $sortStrategy = new SortStrategyID();
         // Применить паттерн Стратегия
-        // $sortType === 'price'; // Сортировка по цене
-        // $sortType === 'name'; // Сортировка по имени
+         if ($sortType === 'price'){
+             $sortStrategy = new SortStrategyPrice();
+         } elseif ($sortType === 'name'){
+             $sortStrategy = new SortStrategyName();
+         }
+         $sortStrategy->sort($productList);
 
         return $productList;
     }
